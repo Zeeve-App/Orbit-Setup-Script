@@ -23,6 +23,9 @@ import {
 import { sanitizePrivateKey } from '@arbitrum/orbit-sdk/utils'
 
 import { L3Config } from './l3ConfigType'
+import { parentChain } from './setup'
+
+const contracts = parentChain.contracts
 
 function createPublicClientFromChainInfo({
   id,
@@ -46,6 +49,7 @@ function createPublicClientFromChainInfo({
         http: [rpcUrl],
       },
     },
+    ...(id === 80069 && { contracts }),
     testnet: true,
   })
 
@@ -53,7 +57,7 @@ function createPublicClientFromChainInfo({
 }
 
 export const TOKEN_BRIDGE_CREATOR_Arb_Sepolia =
-  '0x56C486D3786fA26cc61473C499A36Eb9CC1FbD8E'
+  contracts.tokenBridgeCreator.address
 
 async function getNativeToken({
   rollup,
@@ -132,6 +136,7 @@ export const createNewTokenBridge = async (
       nativeToken,
       owner: deployer.address,
       publicClient: parentChainPublicClient,
+      tokenBridgeCreatorAddressOverride: contracts.tokenBridgeCreator.address,
     }
 
     const enoughCustomFeeTokenAllowance =
@@ -172,6 +177,7 @@ export const createNewTokenBridge = async (
     parentChainPublicClient,
     orbitChainPublicClient,
     account: deployer.address,
+    tokenBridgeCreatorAddressOverride: contracts.tokenBridgeCreator.address,
   })
 
   // submit tx

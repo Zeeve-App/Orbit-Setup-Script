@@ -6,9 +6,53 @@ import { createERC20Bridge } from './createTokenBridge'
 import { l3Configuration } from './l3Configuration'
 import { defaultRunTimeState, RuntimeState } from './runTimeState'
 import { transferOwner } from './transferOwnership'
+import { registerCustomParentChain } from '@arbitrum/orbit-sdk'
+import { Chain, ChainContract } from 'viem'
 // Delay function
 function delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+export const parentChain = {
+  id: 80069,
+  name: 'Berachain Sepolia',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'BERA',
+    symbol: 'BERA',
+  },
+  rpcUrls: {
+    default: {
+      http: ['https://bepolia.rpc.berachain.com/'],
+    },
+    public: {
+      http: ['https://bepolia.rpc.berachain.com/'],
+    },
+  },
+  network: 'Frequency',
+  blockExplorers: {
+    etherscan: {
+      name: 'Berachain Bepolia Explorer',
+      url: 'https://bepolia.beratrail.io/',
+    },
+    default: {
+      name: 'Berachain Bepolia Explorer',
+      url: 'https://bepolia.beratrail.io/',
+    },
+  },
+  contracts: {
+    rollupCreator: {
+      address: '0x7a37383B8a79c434efE8E8dA113401bE37227A7c' as `0x{string}`,
+    },
+    tokenBridgeCreator: {
+      address: '0xCA81cc52f044554B87786060b7225D3481be1886' as `0x{string}`,
+    },
+  },
+} as Chain & {
+  contracts: {
+    rollupCreator: ChainContract
+    tokenBridgeCreator: ChainContract
+  }
 }
 
 function checkRuntimeStateIntegrity(rs: RuntimeState) {
@@ -33,6 +77,8 @@ function checkRuntimeStateIntegrity(rs: RuntimeState) {
 }
 
 async function main() {
+  registerCustomParentChain(parentChain)
+
   // Read the environment variables
   const privateKey = process.env.PRIVATE_KEY
   const L2_RPC_URL = process.env.L2_RPC_URL
