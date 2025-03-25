@@ -25,7 +25,14 @@ import { sanitizePrivateKey } from '@arbitrum/orbit-sdk/utils'
 import { L3Config } from './l3ConfigType'
 import { parentChain } from './setup'
 
-const contracts = parentChain.contracts
+const contracts = {
+  rollupCreator: {
+    address: '0x7a37383B8a79c434efE8E8dA113401bE37227A7c' as `0x{string}`,
+  },
+  tokenBridgeCreator: {
+    address: '0xCA81cc52f044554B87786060b7225D3481be1886' as `0x{string}`,
+  },
+}
 
 function createPublicClientFromChainInfo({
   id,
@@ -40,7 +47,7 @@ function createPublicClientFromChainInfo({
     id: id,
     network: name,
     name: name,
-    nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+    nativeCurrency: { name: 'Bera', symbol: 'BERA', decimals: 18 },
     rpcUrls: {
       default: {
         http: [rpcUrl],

@@ -26,14 +26,7 @@ export async function transferOwner(
   //fetching chain id of parent chain
   const l2ChainId = (await l2Provider.getNetwork()).chainId
 
-  let TOKEN_BRIDGE_CREATOR
-  if (l2ChainId === 421614) {
-    TOKEN_BRIDGE_CREATOR = TOKEN_BRIDGE_CREATOR_Arb_Sepolia
-  } else {
-    throw new Error(
-      'The Base Chain you have provided is not supported, please put RPC for Arb Sepolia'
-    )
-  }
+  const TOKEN_BRIDGE_CREATOR = TOKEN_BRIDGE_CREATOR_Arb_Sepolia
 
   // Read the JSON configuration
   const configRaw = fs.readFileSync(

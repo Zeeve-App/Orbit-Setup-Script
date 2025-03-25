@@ -52,7 +52,7 @@ export async function l3Configuration(
     throw new Error('The address you have provided is not the chain owner')
   }
 
-  // Set the network base fee
+  /*  // Set the network base fee
   console.log('Setting the Minimum Base Fee for the Orbit chain')
   const tx = await ArbOwner.setMinimumL2BaseFee(minL2BaseFee)
 
@@ -101,7 +101,7 @@ export async function l3Configuration(
     throw new Error(
       'Setting Set the infrastructure fee collector transaction failed'
     )
-  }
+  } */
 
   // Setting L1 basefee on L3
   const arbGasInfoAbi = ArbGasInfo__abi
@@ -113,7 +113,9 @@ export async function l3Configuration(
   )
 
   console.log('Getting L1 base fee estimate')
-  const l1BaseFeeEstimate = await ArbOGasInfo.getL1BaseFeeEstimate()
+  // CHECK THE BASE FEE OF THE L1
+  const l1BaseFeeEstimate = ethers.BigNumber.from('10000000')
+
   console.log(`L1 Base Fee estimate on L2 is ${l1BaseFeeEstimate.toNumber()}`)
   const l2Basefee = await L2Provider.getGasPrice()
   const totalGasPrice = await l1BaseFeeEstimate.add(l2Basefee)
