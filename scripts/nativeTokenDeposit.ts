@@ -25,7 +25,7 @@ async function sendEthOrDepositERC20(
       l2Signer
     )
     const tx = await contract.depositEth({
-      value: ethers.utils.parseEther('0.4'),
+      value: ethers.utils.parseEther('0.01'),
     })
     console.log('Transaction hash on parent chain: ', tx.hash)
     await tx.wait()
