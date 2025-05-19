@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euox pipefail
 
+# Install Foundry before running it
+
 # ========= Configuration =========
 
 # RPC endpoints and keys (update with your actual values)
@@ -14,8 +16,8 @@ SEQUENCER_INBOX_ADDRESS="0x4365a7e18F5Fd672e57445239Ca49700dcdc6D13"
 PARENT_CHAIN_RPC="https://internal-arbitrum-sepolia-net.zeeve.net/Dwmc5q4EXoA3zu5o3v/rpc"
 
 # Directories for keys and DAS data
-BASE_DIR="$PWD"
-BLS_PATH="./config/bls_keys"
+BASE_DIR="./config"
+BLS_PATH="$BASE_DIR/bls_keys"
 
 # Nitro image version (update if needed)
 NITRO_IMAGE="offchainlabs/nitro-node:v3.2.1-d81324d"
@@ -28,7 +30,7 @@ chmod -fR 777 "$BLS_PATH"
 # ========= Generate BLS Keypair =========
 
 echo "Generating BLS keypair..."
-sudo docker run --rm -v "$BASE_DIR":/data --entrypoint /usr/local/bin/datool "$NITRO_IMAGE" keygen --dir /data/bls_keys
+docker run --rm -v "$BASE_DIR":/data --entrypoint /usr/local/bin/datool "$NITRO_IMAGE" keygen --dir /data/bls_keys
 
 # ========= Read Public Key =========
 
@@ -43,7 +45,7 @@ echo "Public key: $PUB_KEY"
 
 # ========= Create DAC Config JSON =========
 
-cat > dac-config.json <<EOF
+cat > "$BASE_DIR/dac-config.json" <<EOF
 {
   "keyset": {
     "assumed-honest": 1,
