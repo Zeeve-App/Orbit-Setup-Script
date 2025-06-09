@@ -17,7 +17,7 @@ PARENT_CHAIN_RPC="https://internal-arbitrum-sepolia-net.zeeve.net/Dwmc5q4EXoA3zu
 
 # Directories for keys and DAS data
 BASE_DIR="./config"
-BLS_PATH="$BASE_DIR/bls_keys"
+BLS_PATH="$BASE_DIR/keys"
 
 # Nitro image version (update if needed)
 NITRO_IMAGE="offchainlabs/nitro-node:v3.2.1-d81324d"
@@ -30,7 +30,7 @@ chmod -fR 777 "$BLS_PATH"
 # ========= Generate BLS Keypair =========
 
 echo "Generating BLS keypair..."
-docker run --rm -v "$BASE_DIR":/data --entrypoint /usr/local/bin/datool "$NITRO_IMAGE" keygen --dir /data/bls_keys
+docker run --rm -v "$BASE_DIR":/data --entrypoint /usr/local/bin/datool "$NITRO_IMAGE" keygen --dir /data/keys
 
 # ========= Read Public Key =========
 
